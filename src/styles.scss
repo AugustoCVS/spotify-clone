@@ -12,3 +12,12 @@ body {
   font-family: 'Montserrat', sans-serif;
   box-sizing: border-box;
 }
+
+.flex {
+  display: flex;
+
+  &-center {
+    align-items: center;
+    justify-content: center;
+  }
+}

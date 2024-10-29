@@ -5,6 +5,7 @@ import { RouterModule } from "@angular/router";
 import { playerRoutes } from "./player.routes";
 import { LeftPanellComponent } from "../../components/left-panell/left-panell.component";
 import { MenuButtonComponent } from "../../components/menu-button/menu-button.component";
+import { FontAwesomeModule } from "@fortawesome/angular-fontawesome";
 
 @NgModule({
   declarations: [
@@ -14,6 +15,7 @@ import { MenuButtonComponent } from "../../components/menu-button/menu-button.co
   ],
   imports: [
     CommonModule,
+    FontAwesomeModule,
     RouterModule.forChild(playerRoutes)
   ],
 })

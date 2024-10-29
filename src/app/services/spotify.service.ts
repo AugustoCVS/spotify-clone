@@ -5,6 +5,7 @@ import { IUser } from '../interfaces/user';
 import { DefineSpotifyPlaylist, DefineSpotifyUser } from '../common/helpers/spotify.helper';
 import { IPlaylist } from '../interfaces/playlist';
 import { BehaviorSubject, Observable } from 'rxjs';
+import { Router } from '@angular/router';
 
 @Injectable({
   providedIn: 'root'
@@ -15,7 +16,7 @@ export class SpotifyService {
   user!: IUser;
   private playlists$: BehaviorSubject<IPlaylist[]> = new BehaviorSubject<IPlaylist[]>([]);
 
-  constructor() {
+  constructor(private router: Router) {
     this.spotifyApi = new Spotify();
   }
 
@@ -83,6 +84,11 @@ export class SpotifyService {
 
   getUserPlaylistInfo(): Observable<IPlaylist[]> {
     return this.playlists$.asObservable();
+  }
+
+  logout(): void {
+    localStorage.clear();
+    this.router.navigate(['/login']);
   }
 
 }

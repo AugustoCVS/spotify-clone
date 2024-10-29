@@ -9,7 +9,7 @@ import { SpotifyService } from '../../services/spotify.service';
   styleUrl: './user-footer.component.scss'
 })
 export class UserFooterComponent implements OnInit {
-  logOutIcon = faSignOutAlt;
+  logoutIcon = faSignOutAlt;
   userInfo: IUser = {} as IUser;
 
   constructor(private spofityService: SpotifyService) { }
@@ -20,6 +20,10 @@ export class UserFooterComponent implements OnInit {
 
   getUserInfo(): void {
     this.userInfo = this.spofityService.user
+  }
+
+  logout(): void {
+    this.spofityService.logout()
   }
 
 }

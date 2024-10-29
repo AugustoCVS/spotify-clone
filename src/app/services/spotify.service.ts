@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
 import { environment } from '../../environments/environment';
 import Spotify from 'spotify-web-api-js'
+import { IUser } from '../interfaces/user';
 
 @Injectable({
   providedIn: 'root'
@@ -8,6 +9,7 @@ import Spotify from 'spotify-web-api-js'
 export class SpotifyService {
 
   spotifyApi!: Spotify.SpotifyWebApiJs;
+  user!: IUser;
 
   constructor() {
     this.spotifyApi = new Spotify();
@@ -23,11 +25,17 @@ export class SpotifyService {
     return authEndpoint + clientId + redirectUrl + scopes + responseType;
   }
 
-  getTokenFromUrlCallback(): string {
+  getTokenFromStorage(): string {
+    return localStorage.getItem('token') || '';
+  }
+
+  getToken(): string {
+    const token = this.getTokenFromStorage();
     const hash = window.location.hash
 
-    if (!hash) return '';
+    if (!hash && !token) return '';
 
+    if (token) return token;
     return hash.substring(1).split('&')[0].split('=')[1];
   }
 

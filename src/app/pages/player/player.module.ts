@@ -7,6 +7,7 @@ import { LeftPanellComponent } from "../../components/left-panell/left-panell.co
 import { MenuButtonComponent } from "../../components/menu-button/menu-button.component";
 import { FontAwesomeModule } from "@fortawesome/angular-fontawesome";
 import { UserFooterComponent } from "../../components/user-footer/user-footer.component";
+import { HomeComponent } from "../home/home.component";
 
 @NgModule({
   declarations: [
@@ -14,6 +15,7 @@ import { UserFooterComponent } from "../../components/user-footer/user-footer.co
     LeftPanellComponent,
     MenuButtonComponent,
     UserFooterComponent,
+    HomeComponent,
   ],
   imports: [
     CommonModule,

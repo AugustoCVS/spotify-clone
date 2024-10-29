@@ -28,12 +28,26 @@ $h-menu-options: 150px;
 
     .menu-container {
       width: 100%;
-      gap: 20px;
+      gap: 15px;
+      flex-direction: column;
 
       &.options {
-        flex-direction: column;
         min-height: $h-menu-options;
       }
+    }
+
+    .playlist-title {
+      margin: 25px 0px 5px 0px;
+      align-self: flex-start;
+      font-weight: 700;
+      font-size: .7rem;
+      color: $preto-transparent-30;
+    }
+
+    .playlist-scroll {
+      flex-direction: column;
+      width: 100%;
+      gap: 15px;
     }
   }
 }

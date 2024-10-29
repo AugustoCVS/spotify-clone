@@ -21,3 +21,27 @@ body {
     justify-content: center;
   }
 }
+
+.title {
+  color: $cor-primaria;
+  display: block;
+  font-weight: 700;
+
+  &-bg {
+    @extend .title;
+    font-size: 2.2rem;
+  }
+
+  &-md {
+    @extend .title;
+    font-size: 1.4rem;
+  }
+}
+
+.mt {
+  @for $i from 1 to 10 {
+    &-#{$i} {
+      margin-top: #{$i}vh;
+    }
+  }
+}

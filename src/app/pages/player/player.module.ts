@@ -8,6 +8,7 @@ import { MenuButtonComponent } from "../../components/menu-button/menu-button.co
 import { FontAwesomeModule } from "@fortawesome/angular-fontawesome";
 import { UserFooterComponent } from "../../components/user-footer/user-footer.component";
 import { HomeComponent } from "../home/home.component";
+import { TopArtistComponent } from "../../components/top-artist/top-artist.component";
 
 @NgModule({
   declarations: [
@@ -16,6 +17,7 @@ import { HomeComponent } from "../home/home.component";
     MenuButtonComponent,
     UserFooterComponent,
     HomeComponent,
+    TopArtistComponent
   ],
   imports: [
     CommonModule,

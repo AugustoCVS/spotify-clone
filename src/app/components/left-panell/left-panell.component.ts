@@ -11,7 +11,7 @@ export class LeftPanellComponent {
   homeIcon = faHome;
   searchIcon = faSearch;
   artistIcon = faGuitar;
-  playlist = faMusic;
+  playlistIcon = faMusic;
 
   selectedMenu: string = 'Home';
 

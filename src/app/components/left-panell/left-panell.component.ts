@@ -1,3 +1,4 @@
+import { faGuitar, faHome, faMusic, faSearch } from '@fortawesome/free-solid-svg-icons';
 import { Component } from '@angular/core';
 
 @Component({
@@ -6,5 +7,10 @@ import { Component } from '@angular/core';
   styleUrl: './left-panell.component.scss'
 })
 export class LeftPanellComponent {
+
+  homeIcon = faHome;
+  searchIcon = faSearch;
+  artistIcon = faGuitar;
+  playlist = faMusic;
 
 }

@@ -51,7 +51,7 @@ $h-ignore: calc($h-spotify-logo + $h-menu-options + $h-footer-user);
       flex-direction: column;
       width: 100%;
       gap: 15px;
-      max-height: calc(95vh - $h-ignore);
+      max-height: calc(90vh - $h-ignore);
       overflow-y: auto;
 
       &::-webkit-scrollbar {
@@ -64,12 +64,9 @@ $h-ignore: calc($h-spotify-logo + $h-menu-options + $h-footer-user);
     flex-grow: 0;
     display: block;
     bottom: 0;
-    padding: 0px 20px;
     align-self: flex-end;
 
     height: $h-footer-user;
     width: 100%;
-
-    background-color: red;
   }
 }

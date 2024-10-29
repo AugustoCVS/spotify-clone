@@ -12,7 +12,7 @@ export function DefineSpotifyUser({ user }: { user: SpotifyApi.CurrentUsersProfi
 export function DefineSpotifyPlaylist({ playlist }: { playlist: SpotifyApi.PlaylistObjectSimplified }): IPlaylist {
   return {
     id: playlist.id,
-    name: playlist.name,
+    name: playlist.name || 'Sem Nome',
     imageUrl: playlist.images?.pop()?.url || ''
   }
 }

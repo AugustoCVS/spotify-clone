@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { environment } from '../../environments/environment';
 import Spotify from 'spotify-web-api-js'
 import { IUser } from '../interfaces/user';
-import { DefineSpotifyUser } from '../Common/helpers/spotify.helper';
+import { DefineSpotifyUser } from '../common/helpers/spotify.helper';
 
 @Injectable({
   providedIn: 'root'

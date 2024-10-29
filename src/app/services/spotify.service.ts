@@ -4,6 +4,7 @@ import Spotify from 'spotify-web-api-js'
 import { IUser } from '../interfaces/user';
 import { DefineSpotifyPlaylist, DefineSpotifyUser } from '../common/helpers/spotify.helper';
 import { IPlaylist } from '../interfaces/playlist';
+import { BehaviorSubject, Observable } from 'rxjs';
 
 @Injectable({
   providedIn: 'root'
@@ -12,6 +13,7 @@ export class SpotifyService {
 
   spotifyApi!: Spotify.SpotifyWebApiJs;
   user!: IUser;
+  private playlists$: BehaviorSubject<IPlaylist[]> = new BehaviorSubject<IPlaylist[]>([]);
 
   constructor() {
     this.spotifyApi = new Spotify();
@@ -67,9 +69,20 @@ export class SpotifyService {
     localStorage.setItem('token', token);
   }
 
-  async getUserPlaylist({ offset = 0, limit = 50 }): Promise<IPlaylist[]> {
-    const playlists = await this.spotifyApi.getUserPlaylists(this.user.id, { offset, limit });
-    return playlists.items.map((playlist) => DefineSpotifyPlaylist({ playlist }));
+  getUserPlaylistFromSpotify({ offset = 0, limit = 50 }): void {
+    this.spotifyApi.getUserPlaylists(this.user.id, { offset, limit })
+      .then(playlists => {
+        const formattedPlaylists = playlists.items.map((playlist) => DefineSpotifyPlaylist({ playlist }));
+        this.playlists$.next(formattedPlaylists);
+      })
+      .catch(error => {
+        console.error('Error fetching playlists', error);
+        this.playlists$.next([]);
+      });
+  }
+
+  getUserPlaylistInfo(): Observable<IPlaylist[]> {
+    return this.playlists$.asObservable();
   }
 
 }

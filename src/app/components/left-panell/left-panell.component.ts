@@ -2,6 +2,7 @@ import { faGuitar, faHome, faMusic, faSearch } from '@fortawesome/free-solid-svg
 import { Component, OnInit } from '@angular/core';
 import { IPlaylist } from '../../interfaces/playlist';
 import { SpotifyService } from '../../services/spotify.service';
+import { Observable } from 'rxjs';
 
 @Component({
   selector: 'app-left-panell',
@@ -10,7 +11,7 @@ import { SpotifyService } from '../../services/spotify.service';
 })
 export class LeftPanellComponent implements OnInit {
 
-  playlists: IPlaylist[] = [];
+  protected playlists$: Observable<IPlaylist[]> = new Observable<IPlaylist[]>();
 
   homeIcon = faHome;
   searchIcon = faSearch;
@@ -22,16 +23,16 @@ export class LeftPanellComponent implements OnInit {
   constructor(private spofityService: SpotifyService) { }
 
   ngOnInit(): void {
+    this.spofityService.getUserPlaylistFromSpotify({ offset: 0, limit: 10 });
     this.getPlaylists();
   }
 
-  buttonClick(description: string) {
+  buttonClick(description: string): void {
     this.selectedMenu = description;
   }
 
-  async getPlaylists() {
-    this.playlists = await this.spofityService.getUserPlaylist({ limit: 10 });
-    console.log(this.playlists);
+  getPlaylists(): void {
+    this.playlists$ = this.spofityService.getUserPlaylistInfo();
   }
 
 }

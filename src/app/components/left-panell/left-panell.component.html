@@ -25,7 +25,7 @@
     </span>
 
     <div class="playlist-scroll flex">
-      <app-menu-button *ngFor="let playlist of playlists" [description]="playlist.name"
+      <app-menu-button *ngFor="let playlist of playlists$ | async" [description]="playlist.name"
         [selected]="selectedMenu === playlist.id" (click)="buttonClick(playlist.id)">
         <fa-icon [icon]="playlistIcon"></fa-icon>
       </app-menu-button>

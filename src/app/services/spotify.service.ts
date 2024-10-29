@@ -15,6 +15,27 @@ export class SpotifyService {
     this.spotifyApi = new Spotify();
   }
 
+  async initializeUser(): Promise<boolean> {
+    const token = this.getTokenFromStorage();
+
+    if (!!this.user) return true;
+    if (!token) return false;
+
+    try {
+      this.defineAccessToken({ token });
+      await this.getSpotifyUserData();
+      return true
+    } catch (error) {
+      return false;
+    }
+
+  }
+
+  async getSpotifyUserData() {
+    const userInfo = await this.spotifyApi.getMe();
+    console.log(userInfo)
+  }
+
   getLoginUrl(): string {
     const authEndpoint = `${environment.authEndpoint}?`;
     const clientId = `client_id=${environment.clientId}&`;

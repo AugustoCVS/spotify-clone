@@ -1,4 +1,4 @@
-export interface IUser {
+export interface IPlaylist {
   id: string;
   name: string;
   imageUrl: string;

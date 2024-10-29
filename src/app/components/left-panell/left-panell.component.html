@@ -4,7 +4,15 @@
   </div>
 
   <div class="menu-container flex options">
-    <app-menu-button></app-menu-button>
+    <app-menu-button [description]="'Home'">
+      <fa-icon [icon]="homeIcon"></fa-icon>
+    </app-menu-button>
+    <app-menu-button [description]="'Pesquisar'">
+      <fa-icon [icon]="searchIcon"></fa-icon>
+    </app-menu-button>
+    <app-menu-button [description]="'Artistas'">
+      <fa-icon [icon]="artistIcon"></fa-icon>
+    </app-menu-button>
   </div>
 </div>
 <div class="user-info">

@@ -23,7 +23,7 @@ export class LeftPanellComponent implements OnInit {
   constructor(private spofityService: SpotifyService) { }
 
   ngOnInit(): void {
-    this.spofityService.getUserPlaylistFromSpotify({ offset: 0, limit: 10 });
+    this.spofityService.getUserPlaylistFromSpotify({ offset: 0, limit: 20 });
     this.getPlaylists();
   }
 

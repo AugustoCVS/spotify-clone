@@ -2,6 +2,9 @@
 
 $h-spotify-logo: 120px;
 $h-menu-options: 150px;
+$h-footer-user: 70px;
+
+$h-ignore: calc($h-spotify-logo + $h-menu-options + $h-footer-user);
 
 :host {
   max-width: 300px;
@@ -48,12 +51,25 @@ $h-menu-options: 150px;
       flex-direction: column;
       width: 100%;
       gap: 15px;
-      max-height: 50vh;
+      max-height: calc(95vh - $h-ignore);
       overflow-y: auto;
 
       &::-webkit-scrollbar {
         display: none;
       }
     }
+  }
+
+  .user-info {
+    flex-grow: 0;
+    display: block;
+    bottom: 0;
+    padding: 0px 20px;
+    align-self: flex-end;
+
+    height: $h-footer-user;
+    width: 100%;
+
+    background-color: red;
   }
 }

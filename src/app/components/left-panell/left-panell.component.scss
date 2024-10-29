@@ -13,7 +13,7 @@ $h-ignore: calc($h-spotify-logo + $h-menu-options + $h-footer-user);
   display: flex;
   flex-direction: column;
   background-color: $branco;
-  box-shadow: 1px 0px 15px $preto-transparent-03;
+  box-shadow: 1px 0px 15px $preto-transparent-12;
 
   .menus {
     flex-grow: 1;

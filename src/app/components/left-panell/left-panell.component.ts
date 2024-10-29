@@ -13,4 +13,10 @@ export class LeftPanellComponent {
   artistIcon = faGuitar;
   playlist = faMusic;
 
+  selectedMenu: string = 'Home';
+
+  buttonClick(description: string) {
+    this.selectedMenu = description;
+  }
+
 }

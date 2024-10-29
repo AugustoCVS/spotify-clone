@@ -25,15 +25,8 @@
     </span>
 
     <div class="playlist-scroll flex">
-      <app-menu-button [description]="'teste'" [selected]="selectedMenu === 'Play1'" (click)="buttonClick('Play1')">
-        <fa-icon [icon]="playlistIcon"></fa-icon>
-      </app-menu-button>
-
-      <app-menu-button [description]="'teste'" [selected]="selectedMenu === 'Play1'" (click)="buttonClick('Play1')">
-        <fa-icon [icon]="playlistIcon"></fa-icon>
-      </app-menu-button>
-
-      <app-menu-button [description]="'teste'" [selected]="selectedMenu === 'Play1'" (click)="buttonClick('Play1')">
+      <app-menu-button *ngFor="let playlist of playlists" [description]="playlist.name"
+        [selected]="selectedMenu === playlist.id" (click)="buttonClick(playlist.id)">
         <fa-icon [icon]="playlistIcon"></fa-icon>
       </app-menu-button>
     </div>

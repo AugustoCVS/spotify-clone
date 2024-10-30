@@ -1,5 +1,13 @@
 <div *ngFor="let topArtist of topArtists$ | async " class="card p-20">
-  <div class="img">
-    <h1>{{ topArtist.name }}</h1>
+  <div class="artist flex">
+    <span class="title-bg">
+      {{ topArtist.name }}
+    </span>
+
+    <button>
+      PLAY
+    </button>
+  </div>
+  <div class="image" [style.background-image]="'url(' + topArtist.imageUrl + ')'">
   </div>
 </div>

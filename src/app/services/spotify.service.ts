@@ -113,6 +113,11 @@ export class SpotifyService {
     return this.savedMusics$.asObservable();
   }
 
+  async handleExecuteMusic({ musicId }: { musicId: string }): Promise<void> {
+    await this.spotifyApi.queue(musicId);
+    await this.spotifyApi.skipToNext();
+  }
+
   logout(): void {
     localStorage.clear();
     this.router.navigate(['/login']);

@@ -10,7 +10,7 @@ import { SpotifyService } from '../../services/spotify.service';
 })
 export class UserFooterComponent implements OnInit {
   logoutIcon = faSignOutAlt;
-  userInfo: IUser = {} as IUser;
+  protected userInfo: IUser = {} as IUser;
 
   constructor(private spofityService: SpotifyService) { }
 

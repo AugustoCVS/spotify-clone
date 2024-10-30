@@ -3,6 +3,7 @@ import { IMusic } from "../../interfaces/music";
 import { IPlaylist } from "../../interfaces/playlist";
 import { IUser } from "../../interfaces/user";
 import { newArtist, newMusic, newPlaylist } from "../spotify.factories";
+import { addMilliseconds, format } from "date-fns";
 
 export function DefineSpotifyUser({ user }: { user: SpotifyApi.CurrentUsersProfileResponse }): IUser {
   return {
@@ -35,6 +36,11 @@ export function DefineSpotifyArtist({ artist }: { artist: SpotifyApi.ArtistObjec
 export function DefineSpotifyTrack({ track }: { track: SpotifyApi.TrackObjectFull }): IMusic {
   if (!track) return newMusic();
 
+  const mstToMinutes = (ms: number) => {
+    const date = addMilliseconds(new Date(0), ms);
+    return format(date, 'mm:ss');
+  }
+
   return {
     id: track.id,
     title: track.name,
@@ -47,6 +53,6 @@ export function DefineSpotifyTrack({ track }: { track: SpotifyApi.TrackObjectFul
       id: artist.id,
       name: artist.name
     })),
-    time: ''
+    time: mstToMinutes(track.duration_ms),
   }
 }

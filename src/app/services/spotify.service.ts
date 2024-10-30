@@ -2,19 +2,21 @@ import { Injectable } from '@angular/core';
 import { environment } from '../../environments/environment';
 import Spotify from 'spotify-web-api-js'
 import { IUser } from '../interfaces/user';
-import { DefineSpotifyPlaylist, DefineSpotifyUser } from '../common/helpers/spotify.helper';
+import { DefineSpotifyArtist, DefineSpotifyPlaylist, DefineSpotifyUser } from '../common/helpers/spotify.helper';
 import { IPlaylist } from '../interfaces/playlist';
 import { BehaviorSubject, Observable } from 'rxjs';
 import { Router } from '@angular/router';
+import { IArtist } from '../interfaces/artists';
 
 @Injectable({
   providedIn: 'root'
 })
 export class SpotifyService {
 
-  spotifyApi!: Spotify.SpotifyWebApiJs;
   user!: IUser;
+  private spotifyApi!: Spotify.SpotifyWebApiJs;
   private playlists$: BehaviorSubject<IPlaylist[]> = new BehaviorSubject<IPlaylist[]>([]);
+  private topArtists$: BehaviorSubject<IArtist[]> = new BehaviorSubject<IArtist[]>([]);
 
   constructor(private router: Router) {
     this.spotifyApi = new Spotify();
@@ -70,8 +72,8 @@ export class SpotifyService {
     localStorage.setItem('token', token);
   }
 
-  getUserPlaylistFromSpotify({ offset = 0, limit = 50 }): void {
-    this.spotifyApi.getUserPlaylists(this.user.id, { offset, limit })
+  async getUserPlaylistFromSpotify({ offset = 0, limit = 50 }): Promise<void> {
+    await this.spotifyApi.getUserPlaylists(this.user.id, { offset, limit })
       .then(playlists => {
         const formattedPlaylists = playlists.items.map((playlist) => DefineSpotifyPlaylist({ playlist }));
         this.playlists$.next(formattedPlaylists);
@@ -82,8 +84,24 @@ export class SpotifyService {
       });
   }
 
+  async getTopArtistsFromSpotify({ limit = 10 }) {
+    this.spotifyApi.getMyTopArtists({ limit })
+      .then(topArtists => {
+        const formattedArtists = topArtists.items.map((artist) => DefineSpotifyArtist({ artist }));
+        this.topArtists$.next(formattedArtists);
+      })
+      .catch(error => {
+        console.error('Error fetching top artists', error);
+        this.topArtists$.next([]);
+      });
+  }
+
   getUserPlaylistInfo(): Observable<IPlaylist[]> {
     return this.playlists$.asObservable();
+  }
+
+  getTopArtistsInfo(): Observable<IArtist[]> {
+    return this.topArtists$.asObservable();
   }
 
   logout(): void {

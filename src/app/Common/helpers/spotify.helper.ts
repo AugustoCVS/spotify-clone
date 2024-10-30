@@ -22,6 +22,6 @@ export function DefineSpotifyArtist({ artist }: { artist: SpotifyApi.ArtistObjec
   return {
     id: artist.id,
     name: artist.name,
-    imageUrl: artist.images?.pop()?.url || ''
+    imageUrl: artist.images?.sort((a, b) => a.width! - b.width!).pop()?.url || ''
   }
 }

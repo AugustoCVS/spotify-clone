@@ -42,7 +42,7 @@ export function DefineSpotifyTrack({ track }: { track: SpotifyApi.TrackObjectFul
   }
 
   return {
-    id: track.id,
+    id: track.uri,
     title: track.name,
     album: {
       id: track.album.id,

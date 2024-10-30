@@ -1,3 +1,4 @@
+import { IArtist } from "../../interfaces/artists";
 import { IPlaylist } from "../../interfaces/playlist";
 import { IUser } from "../../interfaces/user";
 
@@ -14,5 +15,13 @@ export function DefineSpotifyPlaylist({ playlist }: { playlist: SpotifyApi.Playl
     id: playlist.id,
     name: playlist.name || 'Sem Nome',
     imageUrl: playlist.images?.pop()?.url || ''
+  }
+}
+
+export function DefineSpotifyArtist({ artist }: { artist: SpotifyApi.ArtistObjectFull }): IArtist {
+  return {
+    id: artist.id,
+    name: artist.name,
+    imageUrl: artist.images?.pop()?.url || ''
   }
 }

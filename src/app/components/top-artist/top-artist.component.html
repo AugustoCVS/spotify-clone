@@ -1,1 +1,5 @@
-<p>top-artists works!</p>
+<div *ngFor="let topArtist of topArtists$ | async " class="card p-20">
+  <div class="img">
+    <h1>{{ topArtist.name }}</h1>
+  </div>
+</div>

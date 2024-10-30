@@ -21,7 +21,6 @@ export class TopArtistComponent implements OnInit {
 
   getTopArtists() {
     this.topArtists$ = this.spotifyService.getTopArtistsInfo();
-    console.log(this.topArtists$);
   }
 
 }

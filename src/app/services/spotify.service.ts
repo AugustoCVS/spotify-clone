@@ -4,7 +4,7 @@ import Spotify from 'spotify-web-api-js'
 import { IUser } from '../interfaces/user';
 import { DefineSpotifyArtist, DefineSpotifyPlaylist, DefineSpotifyTrack, DefineSpotifyUser } from '../common/helpers/spotify.helper';
 import { IPlaylist } from '../interfaces/playlist';
-import { BehaviorSubject, Observable } from 'rxjs';
+import { BehaviorSubject, from, Observable, take } from 'rxjs';
 import { Router } from '@angular/router';
 import { IArtist } from '../interfaces/artists';
 import { IMusic } from '../interfaces/music';
@@ -40,7 +40,7 @@ export class SpotifyService {
 
   }
 
-  async getSpotifyUserData() {
+  private async getSpotifyUserData() {
     const userInfo = await this.spotifyApi.getMe();
     this.user = DefineSpotifyUser({ user: userInfo });
   }
@@ -55,7 +55,7 @@ export class SpotifyService {
     return authEndpoint + clientId + redirectUrl + scopes + responseType;
   }
 
-  getTokenFromStorage(): string {
+  private getTokenFromStorage(): string {
     return localStorage.getItem('token') || '';
   }
 
@@ -75,38 +75,29 @@ export class SpotifyService {
   }
 
   getUserPlaylistFromSpotify({ offset = 0, limit = 50 }): void {
-    this.spotifyApi.getUserPlaylists(this.user.id, { offset, limit })
-      .then(playlists => {
+    from(this.spotifyApi.getUserPlaylists(this.user.id, { offset, limit }))
+      .pipe(take(1))
+      .subscribe((playlists) => {
         const formattedPlaylists = playlists.items.map((playlist) => DefineSpotifyPlaylist({ playlist }));
         this.playlists$.next(formattedPlaylists);
-      })
-      .catch(error => {
-        console.error('Error fetching playlists', error);
-        this.playlists$.next([]);
       });
   }
 
-  getTopArtistsFromSpotify({ limit = 10 }): void {
-    this.spotifyApi.getMyTopArtists({ limit })
-      .then(topArtists => {
+  getTopArtistsFromSpotify({ limit = 10 }) {
+    from(this.spotifyApi.getMyTopArtists({ limit }))
+      .pipe(take(1))
+      .subscribe((topArtists) => {
         const formattedArtists = topArtists.items.map((artist) => DefineSpotifyArtist({ artist }));
         this.topArtists$.next(formattedArtists);
-      })
-      .catch(error => {
-        console.error('Error fetching top artists', error);
-        this.topArtists$.next([]);
       });
   }
 
   getSavedMusicsFromSpotify({ offset = 0, limit = 50 }): void {
-    this.spotifyApi.getMySavedTracks({ offset, limit })
-      .then(savedMusics => {
-        const formattedMusics = savedMusics.items.map((music) => DefineSpotifyTrack({ track: music.track }));
+    from(this.spotifyApi.getMySavedTracks({ offset, limit }))
+      .pipe(take(1))
+      .subscribe((musics) => {
+        const formattedMusics = musics.items.map((music) => DefineSpotifyTrack({ track: music.track }));
         this.savedMusics$.next(formattedMusics);
-      })
-      .catch(error => {
-        console.error('Error fetching saved musics', error);
-        this.savedMusics$.next([]);
       });
   }
 

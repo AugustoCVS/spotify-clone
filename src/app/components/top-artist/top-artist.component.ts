@@ -15,7 +15,6 @@ export class TopArtistComponent implements OnInit {
   constructor(private spotifyService: SpotifyService) { }
 
   ngOnInit() {
-    this.spotifyService.getTopArtistsFromSpotify({ limit: 5 });
     this.getTopArtists();
   }
 

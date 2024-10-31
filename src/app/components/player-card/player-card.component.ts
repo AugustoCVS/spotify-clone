@@ -24,6 +24,7 @@ export class PlayerCardComponent implements OnInit {
   ) { }
 
   ngOnInit(): void {
+    this.spotifyService.getTopArtistsFromSpotify({ limit: 5 });
     this.currentMusic$ = this.spotifyService.getCurrentMusicInfo();
   }
 

@@ -1,1 +1,10 @@
 @import "table";
+
+:host {
+  display: flex;
+  justify-content: space-between;
+
+  .right-panell {
+    height: 100vh;
+  }
+}

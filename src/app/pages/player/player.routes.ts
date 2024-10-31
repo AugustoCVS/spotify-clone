@@ -13,7 +13,7 @@ export const playerRoutes: Routes = [
         component: HomeComponent
       },
       {
-        path: 'list',
+        path: 'list/:tipo/:id',
         component: MusicsListComponent
       }
     ]

@@ -27,4 +27,12 @@ export class PlayerService {
 
   }
 
+  async nextMusic(): Promise<void> {
+    await this.spotifyService.skipToNextMusic();
+  }
+
+  async previousMusic(): Promise<void> {
+    await this.spotifyService.skipToPreviousMusic();
+  }
+
 }

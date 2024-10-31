@@ -133,7 +133,15 @@ export class SpotifyService {
 
   async handleExecuteMusic({ musicId }: { musicId: string }): Promise<void> {
     await this.spotifyApi.queue(musicId);
+    await this.skipToNextMusic();
+  }
+
+  async skipToNextMusic(): Promise<void> {
     await this.spotifyApi.skipToNext();
+  }
+
+  async skipToPreviousMusic(): Promise<void> {
+    await this.spotifyApi.skipToPrevious();
   }
 
   logout(): void {

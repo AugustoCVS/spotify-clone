@@ -15,7 +15,7 @@ export class HomeComponent implements OnInit, OnDestroy {
   playIcon = faPlay;
 
   protected musics$: Observable<IMusic[]> = new Observable<IMusic[]>();
-  protected currentMusic: IMusic = {} as IMusic;
+  protected currentMusic$: Observable<IMusic> = new Observable<IMusic>();
 
   subs: Subscription[] = [];
 
@@ -39,12 +39,13 @@ export class HomeComponent implements OnInit, OnDestroy {
   }
 
   getCurrentMusic(): void {
-    const sub = this.spotifyService.getCurrentMusicInfo()
-      .subscribe((music: IMusic) => {
-        this.currentMusic = music;
-      })
+    this.currentMusic$ = this.spotifyService.getCurrentMusicInfo();
 
-    this.subs.push(sub)
+    const sub = this.currentMusic$.subscribe((music) => {
+      console.log('music', music);
+    })
+
+    this.subs.push(sub);
   }
 
   async handleExecuteMusic({ music }: { music: IMusic }): Promise<void> {

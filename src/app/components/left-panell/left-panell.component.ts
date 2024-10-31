@@ -2,8 +2,8 @@ import { faGuitar, faHome, faMusic, faSearch } from '@fortawesome/free-solid-svg
 import { Component, OnInit } from '@angular/core';
 import { IPlaylist } from '../../interfaces/playlist';
 import { SpotifyService } from '../../services/spotify.service';
-import { Observable } from 'rxjs';
-import { Router } from '@angular/router';
+import { Observable, take } from 'rxjs';
+import { ActivatedRoute, Router } from '@angular/router';
 
 @Component({
   selector: 'app-left-panell',
@@ -23,17 +23,23 @@ export class LeftPanellComponent implements OnInit {
 
   constructor(
     private spofityService: SpotifyService,
-    private router: Router
+    private router: Router,
   ) { }
 
   ngOnInit(): void {
     this.spofityService.getUserPlaylistFromSpotify({ offset: 0, limit: 20 });
     this.getPlaylists();
+    this.getCurrentRoute();
   }
 
   buttonClick(description: string): void {
     this.selectedMenu = description;
     this.handleNavigate({ screen: `player/${description}` });
+  }
+
+  playlistButtonClick(playlistId: string): void {
+    this.handleNavigate({ screen: `player/list/playlist/${playlistId}` });
+    this.selectedMenu = playlistId;
   }
 
   getPlaylists(): void {
@@ -43,5 +49,11 @@ export class LeftPanellComponent implements OnInit {
   handleNavigate({ screen }: { screen: string }): void {
     this.router.navigate([screen]);
   }
+
+  getCurrentRoute(): void {
+    const currentUrl = this.router.url;
+    this.selectedMenu = currentUrl.split('/').pop() || 'home';
+  }
+
 
 }

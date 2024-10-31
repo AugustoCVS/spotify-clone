@@ -8,7 +8,7 @@ import { BehaviorSubject, from, Observable, take } from 'rxjs';
 import { Router } from '@angular/router';
 import { IArtist } from '../interfaces/artists';
 import { IMusic } from '../interfaces/music';
-import { newMusic } from '../common/spotify.factories';
+import { newMusic, newPlaylist } from '../common/spotify.factories';
 
 @Injectable({
   providedIn: 'root'
@@ -21,7 +21,7 @@ export class SpotifyService {
   private topArtists$: BehaviorSubject<IArtist[]> = new BehaviorSubject<IArtist[]>([]);
   private savedMusics$: BehaviorSubject<IMusic[]> = new BehaviorSubject<IMusic[]>([]);
   private currentMusic$: BehaviorSubject<IMusic> = new BehaviorSubject<IMusic>(newMusic());
-  private playlist$: BehaviorSubject<IPlaylist> = new BehaviorSubject<IPlaylist>({} as IPlaylist);
+  private playlist$: BehaviorSubject<IPlaylist> = new BehaviorSubject<IPlaylist>(newPlaylist());
 
   constructor(private router: Router) {
     this.spotifyApi = new Spotify();
@@ -122,11 +122,12 @@ export class SpotifyService {
   }
 
   getMusicsFromSpotifyPlaylist({ playlistId }: { playlistId: string }): void {
+    this.getPlaylistTrackFromSpotify({ playlistId, limit: 50 });
+
     from(this.spotifyApi.getPlaylist(playlistId))
       .pipe(take(1))
       .subscribe((playlist) => {
         const transformedPlaylist = DefineSpotifyPlaylist({ playlist });
-        this.getPlaylistTrackFromSpotify({ playlistId, limit: 50 });
 
         const userPlaylist = {
           ...transformedPlaylist,

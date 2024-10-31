@@ -4,7 +4,7 @@ import Spotify from 'spotify-web-api-js'
 import { IUser } from '../interfaces/user';
 import { DefineSpotifyArtist, DefineSpotifyPlaylist, DefineSpotifyTrack, DefineSpotifyUser } from '../common/helpers/spotify.helper';
 import { IPlaylist } from '../interfaces/playlist';
-import { BehaviorSubject, from, Observable, take } from 'rxjs';
+import { BehaviorSubject, concatMap, from, map, Observable, switchMap, take } from 'rxjs';
 import { Router } from '@angular/router';
 import { IArtist } from '../interfaces/artists';
 import { IMusic } from '../interfaces/music';
@@ -112,31 +112,36 @@ export class SpotifyService {
       });
   }
 
-  getPlaylistTrackFromSpotify({ playlistId, offset = 0, limit = 50 }: { playlistId: string; offset?: number; limit?: number }): void {
-    from(this.spotifyApi.getPlaylistTracks(playlistId, { offset, limit }))
-      .pipe(take(1))
-      .subscribe((musics) => {
-        const formattedMusics = musics.items.map((music) => DefineSpotifyTrack({ track: music.track as SpotifyApi.TrackObjectFull }));
-        this.savedMusics$.next(formattedMusics);
-      });
+  getPlaylistTrackFromSpotify({ playlistId, offset = 0, limit = 50 }: { playlistId: string; offset?: number; limit?: number }): Observable<void> {
+    return from(this.spotifyApi.getPlaylistTracks(playlistId, { offset, limit }))
+      .pipe(
+        take(1),
+        map((musics) => {
+          const formattedMusics = musics.items.map((music) => DefineSpotifyTrack({ track: music.track as SpotifyApi.TrackObjectFull }));
+          this.savedMusics$.next(formattedMusics);
+        })
+      );
   }
 
-  getMusicsFromSpotifyPlaylist({ playlistId }: { playlistId: string }): void {
-    this.getPlaylistTrackFromSpotify({ playlistId, limit: 50 });
 
-    from(this.spotifyApi.getPlaylist(playlistId))
-      .pipe(take(1))
+  getMusicsFromSpotifyPlaylist({ playlistId }: { playlistId: string }): void {
+    this.getPlaylistTrackFromSpotify({ playlistId, limit: 20 })
+      .pipe(
+        concatMap(() => from(this.spotifyApi.getPlaylist(playlistId))),
+        take(1)
+      )
       .subscribe((playlist) => {
         const transformedPlaylist = DefineSpotifyPlaylist({ playlist });
 
         const userPlaylist = {
           ...transformedPlaylist,
           musics: this.savedMusics$.getValue()
-        }
+        };
 
         this.playlist$.next(userPlaylist);
       });
   }
+
 
   publishCurrentMusic({ music }: { music: IMusic }): void {
     this.currentMusic$.next(music);

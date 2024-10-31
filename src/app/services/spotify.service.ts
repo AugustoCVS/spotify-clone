@@ -8,6 +8,7 @@ import { BehaviorSubject, from, Observable, take } from 'rxjs';
 import { Router } from '@angular/router';
 import { IArtist } from '../interfaces/artists';
 import { IMusic } from '../interfaces/music';
+import { newMusic } from '../common/spotify.factories';
 
 @Injectable({
   providedIn: 'root'
@@ -19,6 +20,7 @@ export class SpotifyService {
   private playlists$: BehaviorSubject<IPlaylist[]> = new BehaviorSubject<IPlaylist[]>([]);
   private topArtists$: BehaviorSubject<IArtist[]> = new BehaviorSubject<IArtist[]>([]);
   private savedMusics$: BehaviorSubject<IMusic[]> = new BehaviorSubject<IMusic[]>([]);
+  private currentMusic$: BehaviorSubject<IMusic> = new BehaviorSubject<IMusic>(newMusic());
 
   constructor(private router: Router) {
     this.spotifyApi = new Spotify();
@@ -83,7 +85,7 @@ export class SpotifyService {
       });
   }
 
-  getTopArtistsFromSpotify({ limit = 10 }) {
+  getTopArtistsFromSpotify({ limit = 10 }): void {
     from(this.spotifyApi.getMyTopArtists({ limit }))
       .pipe(take(1))
       .subscribe((topArtists) => {
@@ -99,6 +101,22 @@ export class SpotifyService {
         const formattedMusics = musics.items.map((music) => DefineSpotifyTrack({ track: music.track }));
         this.savedMusics$.next(formattedMusics);
       });
+  }
+
+  getCurrentMusicFromSpotify(): void {
+    from(this.spotifyApi.getMyCurrentPlayingTrack())
+      .pipe(take(1))
+      .subscribe((music) => {
+        this.publishCurrentMusic({ music: DefineSpotifyTrack({ track: music.item }) });
+      });
+  }
+
+  publishCurrentMusic({ music }: { music: IMusic }): void {
+    this.currentMusic$.next(music);
+  }
+
+  getCurrentMusicInfo(): Observable<IMusic> {
+    return this.currentMusic$.asObservable();
   }
 
   getUserPlaylistInfo(): Observable<IPlaylist[]> {

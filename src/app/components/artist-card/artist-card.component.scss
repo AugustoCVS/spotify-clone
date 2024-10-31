@@ -17,7 +17,11 @@
   span {
     flex-grow: 1;
     margin-left: 10px;
-    font-size: .9rem;
-    font-weight: 700;
+    font-size: .85rem;
+    font-weight: 600;
+    color: $preto-transparent-70;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
   }
 }

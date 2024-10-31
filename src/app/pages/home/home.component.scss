@@ -1,4 +1,5 @@
 @import "table";
+@import "variables";
 
 :host {
   display: flex;
@@ -18,5 +19,18 @@
 
   .right-panell {
     height: 100%;
+  }
+
+  ::-webkit-scrollbar {
+    width: 7px;
+
+    &-thumb {
+      background-color: rgba($cor-primaria, .2);
+      border-radius: 10px;
+    }
+
+    &-track {
+      background-color: transparent;
+    }
   }
 }

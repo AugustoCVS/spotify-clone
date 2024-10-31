@@ -1,11 +1,10 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
-import { Observable, Subscription, take } from 'rxjs';
+import { Subscription } from 'rxjs';
 import { IMusic } from '../../interfaces/music';
 import { SpotifyService } from '../../services/spotify.service';
 import { faPlay } from '@fortawesome/free-solid-svg-icons';
 import { ActivatedRoute } from '@angular/router';
 import { IPlaylist } from '../../interfaces/playlist';
-import { newPlaylist } from '../../common/spotify.factories';
 
 @Component({
   selector: 'app-musics-list',
@@ -15,9 +14,10 @@ import { newPlaylist } from '../../common/spotify.factories';
 export class MusicsListComponent implements OnInit, OnDestroy {
 
   playIcon = faPlay;
-  bannerImgUrl: string = '';
 
-  protected playlist$: Observable<IPlaylist> = new Observable<IPlaylist>();
+  protected bannerText: string = '';
+  protected bannerImgUrl: string = '';
+  protected musics: IMusic[] | undefined = [];
   protected currentMusic: IMusic = {} as IMusic;
 
   subs: Subscription[] = [];
@@ -60,11 +60,22 @@ export class MusicsListComponent implements OnInit, OnDestroy {
 
   getPlaylistData({ playlistId }: { playlistId: string }): void {
     this.spotifyService.getMusicsFromSpotifyPlaylist({ playlistId });
-    this.playlist$ = this.spotifyService.getPlaylistMusicsInfo();
+    const sub = this.spotifyService.getPlaylistMusicsInfo()
+      .subscribe((playlist) => {
+        this.definePageData({ playlist });
+      })
+
+    this.subs.push(sub);
   }
 
   getArtistData({ artistId }: { artistId: string }): void {
 
+  }
+
+  definePageData({ playlist }: { playlist: IPlaylist }): void {
+    this.bannerText = playlist.name;
+    this.bannerImgUrl = playlist.imageUrl;
+    this.musics = playlist.musics;
   }
 
   async handleExecuteMusic({ music }: { music: IMusic }): Promise<void> {

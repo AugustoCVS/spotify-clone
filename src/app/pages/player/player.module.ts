@@ -12,6 +12,8 @@ import { HomeComponent } from "../home/home.component";
 import { TopArtistComponent } from "../../components/top-artist/top-artist.component";
 import { RightPanellComponent } from "../../components/right-panell/right-panell.component";
 import { RecentSearchesComponent } from "../../components/recent-searches/recent-searches.component";
+import { TopComponent } from "../../components/top/top.component";
+import { ArtistCardComponent } from "../../components/artist-card/artist-card.component";
 
 @NgModule({
   declarations: [
@@ -23,6 +25,8 @@ import { RecentSearchesComponent } from "../../components/recent-searches/recent
     TopArtistComponent,
     RightPanellComponent,
     RecentSearchesComponent,
+    TopComponent,
+    ArtistCardComponent
   ],
   imports: [
     CommonModule,

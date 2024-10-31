@@ -3,6 +3,7 @@ import { IMusic } from '../../interfaces/music';
 import { SpotifyService } from '../../services/spotify.service';
 import { Observable, Subscription } from 'rxjs';
 import { faPlay } from '@fortawesome/free-solid-svg-icons';
+import { PlayerService } from '../../services/player.service';
 
 
 @Component({
@@ -15,17 +16,17 @@ export class HomeComponent implements OnInit, OnDestroy {
   playIcon = faPlay;
 
   protected musics$: Observable<IMusic[]> = new Observable<IMusic[]>();
-  protected currentMusic$: Observable<IMusic> = new Observable<IMusic>();
+  currentMusic$: Observable<IMusic> = new Observable<IMusic>();
 
   subs: Subscription[] = [];
 
   constructor(
-    private spotifyService: SpotifyService
+    private spotifyService: SpotifyService,
+    private playerService: PlayerService
   ) { }
 
   ngOnInit(): void {
     this.spotifyService.getSavedMusicsFromSpotify({});
-    this.spotifyService.getCurrentMusicFromSpotify();
     this.musics$ = this.spotifyService.getsavedMusicsInfo();
     this.getCurrentMusic();
   }
@@ -39,9 +40,7 @@ export class HomeComponent implements OnInit, OnDestroy {
   }
 
   getCurrentMusic(): void {
-    this.currentMusic$ = this.spotifyService.getCurrentMusicInfo();
-
-    const sub = this.currentMusic$.subscribe((music) => {
+    const sub = this.playerService.currentMusic$.subscribe((music) => {
       console.log('music', music);
     })
 

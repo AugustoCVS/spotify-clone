@@ -5,7 +5,6 @@ import { Observable, Subscription } from 'rxjs';
 import { faPlay } from '@fortawesome/free-solid-svg-icons';
 import { PlayerService } from '../../services/player.service';
 
-
 @Component({
   selector: 'app-home',
   templateUrl: './home.component.html',
@@ -23,12 +22,14 @@ export class HomeComponent implements OnInit, OnDestroy {
   constructor(
     private spotifyService: SpotifyService,
     private playerService: PlayerService
-  ) { }
+  ) {
+    this.playerService.getCurrentMusic();
+  }
 
   ngOnInit(): void {
     this.spotifyService.getSavedMusicsFromSpotify({});
     this.musics$ = this.spotifyService.getsavedMusicsInfo();
-    this.getCurrentMusic();
+    this.defineCurrentMusic();
   }
 
   ngOnDestroy(): void {
@@ -39,8 +40,8 @@ export class HomeComponent implements OnInit, OnDestroy {
     return music.artists.map(artist => artist.name).join(', ');
   }
 
-  getCurrentMusic(): void {
-    const sub = this.playerService.currentMusic$.subscribe((music) => {
+  defineCurrentMusic(): void {
+    const sub = this.spotifyService.getCurrentMusicInfo().subscribe((music) => {
       this.currentMusic = music;
     })
 

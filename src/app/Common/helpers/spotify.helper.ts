@@ -33,7 +33,7 @@ export function DefineSpotifyArtist({ artist }: { artist: SpotifyApi.ArtistObjec
   }
 }
 
-export function DefineSpotifyTrack({ track }: { track: SpotifyApi.TrackObjectFull }): IMusic {
+export function DefineSpotifyTrack({ track }: { track: SpotifyApi.TrackObjectFull | null }): IMusic {
   if (!track) return newMusic();
 
   const mstToMinutes = (ms: number) => {

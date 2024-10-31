@@ -19,6 +19,7 @@ export class MusicsListComponent implements OnInit, OnDestroy {
   protected bannerImgUrl: string = '';
   protected musics: IMusic[] | undefined = [];
   protected currentMusic: IMusic = {} as IMusic;
+  protected title: string = '';
 
   subs: Subscription[] = [];
 
@@ -76,6 +77,7 @@ export class MusicsListComponent implements OnInit, OnDestroy {
     this.bannerText = playlist.name;
     this.bannerImgUrl = playlist.imageUrl;
     this.musics = playlist.musics;
+    this.title = 'Músicas: ' + playlist.name;
   }
 
   async handleExecuteMusic({ music }: { music: IMusic }): Promise<void> {

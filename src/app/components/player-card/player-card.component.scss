@@ -7,6 +7,9 @@
   overflow: hidden;
   display: flex;
   flex-direction: column;
+  padding: 8px;
+  overflow: hidden;
+  background-color: $preto-transparent-70;
 
   .image {
     height: 65%;
@@ -14,11 +17,11 @@
     background-size: cover;
     background-repeat: no-repeat;
     opacity: .7;
+    border-radius: 5px;
   }
 
   .controls {
     padding: 10px;
-    background-color: $preto-transparent-70;
     flex-grow: 1;
     color: $branco;
 

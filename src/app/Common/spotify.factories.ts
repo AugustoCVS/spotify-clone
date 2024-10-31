@@ -17,6 +17,7 @@ export function newPlaylist(): IPlaylist {
     id: '',
     imageUrl: '',
     name: '',
+    musics: [],
   }
 }
 

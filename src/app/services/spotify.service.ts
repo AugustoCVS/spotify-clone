@@ -123,7 +123,6 @@ export class SpotifyService {
       );
   }
 
-
   getMusicsFromSpotifyPlaylist({ playlistId }: { playlistId: string }): void {
     this.getPlaylistTrackFromSpotify({ playlistId, limit: 20 })
       .pipe(
@@ -141,7 +140,6 @@ export class SpotifyService {
         this.playlist$.next(userPlaylist);
       });
   }
-
 
   publishCurrentMusic({ music }: { music: IMusic }): void {
     this.currentMusic$.next(music);

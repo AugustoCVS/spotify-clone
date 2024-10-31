@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { SpotifyService } from '../../services/spotify.service';
-import { Observable } from 'rxjs';
+import { map, Observable } from 'rxjs';
 import { IArtist } from '../../interfaces/artists';
 
 @Component({
@@ -15,12 +15,14 @@ export class TopArtistComponent implements OnInit {
   constructor(private spotifyService: SpotifyService) { }
 
   ngOnInit() {
-    this.spotifyService.getTopArtistsFromSpotify({ limit: 1 });
+    this.spotifyService.getTopArtistsFromSpotify({ limit: 5 });
     this.getTopArtists();
   }
 
   getTopArtists() {
-    this.topArtists$ = this.spotifyService.getTopArtistsInfo();
+    this.topArtists$ = this.spotifyService.getTopArtistsInfo().pipe(
+      map((artists: IArtist[]) => artists.slice(0, 1))
+    );
   }
 
 }

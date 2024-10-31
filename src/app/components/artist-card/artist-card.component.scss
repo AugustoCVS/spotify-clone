@@ -1,0 +1,23 @@
+@import 'variables';
+
+.container {
+  align-items: center;
+  justify-content: space-between;
+  height: 100%;
+  width: 100%;
+  padding: 5px 0px;
+
+  img {
+    flex-grow: 0;
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+  }
+
+  span {
+    flex-grow: 1;
+    margin-left: 10px;
+    font-size: .9rem;
+    font-weight: 700;
+  }
+}

@@ -10,6 +10,7 @@ import { UserFooterComponent } from "../../components/user-footer/user-footer.co
 import { HomeComponent } from "../home/home.component";
 import { TopArtistComponent } from "../../components/top-artist/top-artist.component";
 import { RightPanellComponent } from "../../components/right-panell/right-panell.component";
+import { RecentSearchesComponent } from "../../components/recent-searches/recent-searches.component";
 
 @NgModule({
   declarations: [
@@ -19,7 +20,8 @@ import { RightPanellComponent } from "../../components/right-panell/right-panell
     UserFooterComponent,
     HomeComponent,
     TopArtistComponent,
-    RightPanellComponent
+    RightPanellComponent,
+    RecentSearchesComponent,
   ],
   imports: [
     CommonModule,

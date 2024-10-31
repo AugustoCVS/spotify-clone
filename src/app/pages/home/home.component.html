@@ -21,7 +21,8 @@
     </thead>
 
     <tbody>
-      <tr *ngFor="let music of musics$ | async" (click)="handleExecuteMusic({ music })">
+      <tr *ngFor="let music of musics$ | async" (click)="handleExecuteMusic({ music })"
+        [class.executing]="music.id === currentMusic.id">
         <td>
           <fa-icon [icon]="playIcon" class="play"></fa-icon>
         </td>

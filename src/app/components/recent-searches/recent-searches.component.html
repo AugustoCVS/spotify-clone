@@ -1,6 +1,7 @@
-<input type="text" [(ngModel)]="searchField" placeholder="Artistas, Músicas, Playlists">
+<input type="text" [(ngModel)]="searchField" placeholder="Artistas, Músicas, Playlists"
+  (keydown.Enter)="handleSearch()">
 <div class="sugestions flex">
-  <span *ngFor="let search of recentSearchs">
+  <span *ngFor="let search of recentSearchs" (click)="defineSearchField({ value: search })">
     {{ search }}
   </span>
 </div>

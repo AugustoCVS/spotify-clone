@@ -7,10 +7,17 @@ import { Component } from '@angular/core';
 })
 export class RecentSearchesComponent {
 
-  recentSearchs: string[] = [
-    'Top Brasil', 'Top Global', 'Esquente Sertanejo', 'Funk Hits', 'Pagodeira'
-  ]
+  recentSearchs: string[] = []
 
   searchField: string = '';
+
+  defineSearchField({ value }: { value: string }): void {
+    this.searchField = value;
+  }
+
+  handleSearch(): void {
+    this.recentSearchs.push(this.searchField);
+    this.searchField = '';
+  }
 
 }

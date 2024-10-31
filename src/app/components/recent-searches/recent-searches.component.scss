@@ -3,7 +3,7 @@
 :host {
   input {
     width: 100%;
-    padding: 10px 5px;
+    padding: 10px 10px;
     border-radius: 8px;
     border: 1px solid $preto-transparent-30;
     outline: none;
@@ -33,12 +33,12 @@
       color: $preto-transparent-70;
       border: 1px solid $preto-transparent-30;
       margin-top: 10px;
-      font-size: .9rem;
+      font-size: .8rem;
       border-radius: 20px;
       cursor: pointer;
 
       &:hover {
-        background-color: rgba($cor-primaria, .8);
+        background-color: rgba($cor-primaria, .7);
         color: $branco;
       }
     }

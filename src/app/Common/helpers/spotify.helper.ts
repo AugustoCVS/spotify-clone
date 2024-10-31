@@ -19,7 +19,7 @@ export function DefineSpotifyPlaylist({ playlist }: { playlist: SpotifyApi.Playl
   return {
     id: playlist.id,
     name: playlist.name || 'Sem Nome',
-    imageUrl: playlist.images?.pop()?.url || ''
+    imageUrl: playlist.images?.sort((a, b) => a.width! - b.width!).pop()?.url || ''
   }
 }
 

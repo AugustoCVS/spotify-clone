@@ -1,1 +1,10 @@
-<p>player-card works!</p>
+<div class="container card p-10" *ngIf="currentMusic$ | async as currentMusic">
+  <div class="image" [style.background-image]="'url(' + currentMusic.album.imgUrl + ')'"></div>
+  <div class="controls">
+    <span>{{ currentMusic.title }}</span>
+    <div class="buttons">
+      <fa-icon [icon]="backwardIcon" (click)="skipToPreviousMusic()"></fa-icon>
+      <fa-icon [icon]="forwardIcon" (click)="skipToNextMusic()"></fa-icon>
+    </div>
+  </div>
+</div>

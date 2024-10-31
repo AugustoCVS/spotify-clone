@@ -8,7 +8,9 @@ import { Component } from '@angular/core';
 export class RecentSearchesComponent {
 
   recentSearchs: string[] = [
-    'Top Brasil', 'Top Global', 'Esquente Sertaneja', 'Funk Hits', 'Pagodeira'
+    'Top Brasil', 'Top Global', 'Esquente Sertanejo', 'Funk Hits', 'Pagodeira'
   ]
+
+  searchField: string = '';
 
 }

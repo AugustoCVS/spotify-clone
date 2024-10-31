@@ -21,6 +21,7 @@ export class SpotifyService {
   private topArtists$: BehaviorSubject<IArtist[]> = new BehaviorSubject<IArtist[]>([]);
   private savedMusics$: BehaviorSubject<IMusic[]> = new BehaviorSubject<IMusic[]>([]);
   private currentMusic$: BehaviorSubject<IMusic> = new BehaviorSubject<IMusic>(newMusic());
+  private playlist$: BehaviorSubject<IPlaylist> = new BehaviorSubject<IPlaylist>({} as IPlaylist);
 
   constructor(private router: Router) {
     this.spotifyApi = new Spotify();
@@ -42,7 +43,7 @@ export class SpotifyService {
 
   }
 
-  private async getSpotifyUserData() {
+  private async getSpotifyUserData(): Promise<void> {
     const userInfo = await this.spotifyApi.getMe();
     this.user = DefineSpotifyUser({ user: userInfo });
   }
@@ -111,6 +112,31 @@ export class SpotifyService {
       });
   }
 
+  getPlaylistTrackFromSpotify({ playlistId, offset = 0, limit = 50 }: { playlistId: string; offset?: number; limit?: number }): void {
+    from(this.spotifyApi.getPlaylistTracks(playlistId, { offset, limit }))
+      .pipe(take(1))
+      .subscribe((musics) => {
+        const formattedMusics = musics.items.map((music) => DefineSpotifyTrack({ track: music.track as SpotifyApi.TrackObjectFull }));
+        this.savedMusics$.next(formattedMusics);
+      });
+  }
+
+  getMusicsFromSpotifyPlaylist({ playlistId }: { playlistId: string }): void {
+    from(this.spotifyApi.getPlaylist(playlistId))
+      .pipe(take(1))
+      .subscribe((playlist) => {
+        const transformedPlaylist = DefineSpotifyPlaylist({ playlist });
+        this.getPlaylistTrackFromSpotify({ playlistId, limit: 50 });
+
+        const userPlaylist = {
+          ...transformedPlaylist,
+          musics: this.savedMusics$.getValue()
+        }
+
+        this.playlist$.next(userPlaylist);
+      });
+  }
+
   publishCurrentMusic({ music }: { music: IMusic }): void {
     this.currentMusic$.next(music);
   }
@@ -129,6 +155,10 @@ export class SpotifyService {
 
   getsavedMusicsInfo(): Observable<IMusic[]> {
     return this.savedMusics$.asObservable();
+  }
+
+  getPlaylistMusicsInfo(): Observable<IPlaylist> {
+    return this.playlist$.asObservable();
   }
 
   async handleExecuteMusic({ musicId }: { musicId: string }): Promise<void> {

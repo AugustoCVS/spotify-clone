@@ -5,6 +5,7 @@ import { SpotifyService } from '../../services/spotify.service';
 import { faPlay } from '@fortawesome/free-solid-svg-icons';
 import { ActivatedRoute } from '@angular/router';
 import { IPlaylist } from '../../interfaces/playlist';
+import { PlayerService } from '../../services/player.service';
 
 @Component({
   selector: 'app-musics-list',
@@ -25,11 +26,15 @@ export class MusicsListComponent implements OnInit, OnDestroy {
 
   constructor(
     private spotifyService: SpotifyService,
-    private activedRoute: ActivatedRoute
-  ) { }
+    private activedRoute: ActivatedRoute,
+    private playerService: PlayerService,
+  ) {
+    this.playerService.getCurrentMusic();
+  }
 
   ngOnInit(): void {
     this.getMusics();
+    this.defineCurrentMusic();
   }
 
   ngOnDestroy(): void {
@@ -78,6 +83,14 @@ export class MusicsListComponent implements OnInit, OnDestroy {
     this.bannerImgUrl = playlist.imageUrl;
     this.musics = playlist.musics;
     this.title = 'Músicas: ' + playlist.name;
+  }
+
+  defineCurrentMusic(): void {
+    const sub = this.spotifyService.getCurrentMusicInfo().subscribe((music) => {
+      this.currentMusic = music;
+    })
+
+    this.subs.push(sub);
   }
 
   async handleExecuteMusic({ music }: { music: IMusic }): Promise<void> {
